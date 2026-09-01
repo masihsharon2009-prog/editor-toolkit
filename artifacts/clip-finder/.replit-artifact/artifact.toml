@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Clip Finder"
+description = "A fast, mobile-friendly video editing companion that helps editors review long footage, score standout moments against a checklist, mark timestamps, and export logged clips."
+version = "1.0.0"
+id = "artifacts/clip-finder"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24734
+
+[services.development]
+run = "pnpm --filter @workspace/clip-finder run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/clip-finder", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/clip-finder/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24734"
+BASE_PATH = "/"
