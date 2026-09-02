@@ -72,21 +72,23 @@ const checklist = [
 ];
 
 function formatTime(seconds: number, includeHours = false) {
-  if (!Number.isFinite(seconds)) return '00:00';
-  const safe = Math.max(0, Math.floor(seconds));
-  const hours = Math.floor(safe / 3600);
-  const minutes = Math.floor((safe % 3600) / 60);
-  const secs = safe % 60;
-  if (includeHours || hours > 0) return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-  return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  if (!Number.isFinite(seconds)) return includeHours ? '00:00:00.000' : '00:00.000';
+  const totalMilliseconds = Math.max(0, Math.round(seconds * 1000));
+  const hours = Math.floor(totalMilliseconds / 3_600_000);
+  const minutes = Math.floor((totalMilliseconds % 3_600_000) / 60_000);
+  const secs = Math.floor((totalMilliseconds % 60_000) / 1_000);
+  const milliseconds = totalMilliseconds % 1_000;
+  const clock = `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
+  if (includeHours || hours > 0) return `${String(hours).padStart(2, '0')}:${clock}`;
+  return clock;
 }
 
 function parseTime(value: string) {
-  const parts = value.split(':').map(Number);
+  const parts = value.trim().split(':').map(Number);
   if (parts.some(Number.isNaN)) return 0;
-  if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
-  if (parts.length === 2) return parts[0] * 60 + parts[1];
-  return parts[0] || 0;
+  if (parts.length === 3) return Math.max(0, parts[0] * 3600 + parts[1] * 60 + parts[2]);
+  if (parts.length === 2) return Math.max(0, parts[0] * 60 + parts[1]);
+  return Math.max(0, parts[0] || 0);
 }
 
 function getYouTubeId(value: string) {
@@ -535,7 +537,7 @@ function AppShell() {
           {sourceError && <div className="mt-3 flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs text-destructive" role="alert" data-testid="status-source-error"><Info size={15} className="mt-0.5 shrink-0" /> <span>{sourceError}</span></div>}
         </section>
 
-        <div className="grid gap-5 xl:grid-cols-[minmax(0,1.35fr)_minmax(390px,.8fr)]">
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(330px,.8fr)]">
           <div className="min-w-0 space-y-5">
             <section className="clip-rise clip-rise-delay-1 overflow-hidden rounded-2xl border border-foreground/10 bg-foreground shadow-lg" aria-label="Video player">
               <div className="relative aspect-video min-h-[240px] bg-[#252321]">
@@ -604,7 +606,7 @@ function AppShell() {
             </section>
           </div>
 
-          <aside className="clip-rise clip-rise-delay-3 min-w-0 rounded-2xl border border-border bg-card shadow-sm xl:sticky xl:top-5 xl:self-start" aria-label="Logged moments">
+          <aside className="clip-rise clip-rise-delay-3 min-w-0 rounded-2xl border border-border bg-card shadow-sm lg:sticky lg:top-5 lg:self-start" aria-label="Logged moments">
             <div className="border-b border-border p-4 sm:p-5">
               <div className="flex items-start justify-between gap-3">
                 <div>
