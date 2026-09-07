@@ -1,19 +1,22 @@
 # editor-toolkit
 
-A tool that helps video editors find the best moments in long-form footage.
+Built for video editors who cut to the beat. Beat Marker automatically 
+detects the beat of your music, then — using a flash-overlay trick — lets 
+you drop those beats in as real timeline markers inside any editing app, 
+including CapCut and Blurrr, which don't support marker imports natively 
+at all. Alongside it, Clip Finder helps you tag your best footage moments 
+without scrubbing back and forth twice.
 
 [Try it live →](YOUR-REPLIT-DEMO-LINK-HERE)
 
 ## Features
-- **Clip Finder** — checklist-based moment tagging (sudden motion, character close-up + line, reaction shot, reveal beat), millisecond-precision Start/End timestamps, hotkeys (Space/I/O/arrows), Copy List + CSV export for editing software
-- **Sound Matcher** — describe a scene's mood, get matching song suggestions (in progress)
+- **Beat Marker** — auto-detects BPM and beat timestamps from any local 
+  audio or video file, then generates a downloadable flash-overlay video 
+  you drop onto your timeline to mark every beat in your own app, natively
+- **Clip Finder** — checklist-based moment tagging (sudden motion, 
+  character close-up + line, reaction shot, reveal beat), millisecond-
+  precision timestamps, hotkeys, CSV export
 - **Trend Spotter** — viral trend matching (planned)
-
-## How to use
-1. Open the live link above
-2. Paste a YouTube URL or upload a local video
-3. Watch and tag moments using the checklist or hotkeys
-4. Export your logged moments as CSV or copy as plain text
 
 ## Built with
 Replit, originally prototyped on Base44. Built for Hack Club's Stardance Challenge.
